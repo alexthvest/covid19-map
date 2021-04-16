@@ -1,9 +1,12 @@
 import React from "react";
+import { MapContainer, GeoJSON } from "react-leaflet";
+
+import data from "~/data/world-50m.json";
 
 export const App: React.FC = () => {
   return (
-    <div className="p-16">
-      <h1 className="text-xl">Hello, World!</h1>
-    </div>
+    <MapContainer center={[0, 0]} zoom={2} style={{ width: "100%", height: "100vh" }}>
+      <GeoJSON data={data} style={{ color: "#202020", weight: 0.6 }} />
+    </MapContainer>
   );
 };
