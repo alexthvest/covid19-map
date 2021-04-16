@@ -1,12 +1,33 @@
-import React from "react";
-import { MapContainer, GeoJSON } from "react-leaflet";
+import React, { useEffect } from "react";
+import { Layer } from "leaflet";
 
-import data from "~/data/world-50m.json";
+import { WorldMapContainer } from "~/components/WorldMapContainer";
+import { CountryFeature } from "~/models";
+
+import axios from "axios";
+
+export interface CountryStatus {
+  country: string;
+  lastUpdate: string;
+  cases: number;
+  deaths: number;
+  recovered: number;
+}
 
 export const App: React.FC = () => {
-  return (
-    <MapContainer center={[0, 0]} zoom={2} style={{ width: "100%", height: "100vh" }}>
-      <GeoJSON data={data} style={{ color: "#202020", weight: 0.6 }} />
-    </MapContainer>
-  );
+  useEffect(() => {
+    axios.get("https://covid19-api.org/api/status/", {}).then(console.log);
+  }, []);
+
+  const handleCountryRender = (country: CountryFeature, layer: Layer) => {
+    if (country.properties.iso_a2 === "RU") {
+      layer.options.fillColor = "#0000ff";
+    }
+
+    if (country.properties.iso_a2 === "US") {
+      layer.options.fillColor = "#00ff00";
+    }
+  };
+
+  return <WorldMapContainer handleCountryRender={handleCountryRender} />;
 };
