@@ -9,10 +9,17 @@ export interface Country {
 
 export type CountryFeature = Feature<Geometry, Country>;
 
-export interface CountryStatus {
-  country: string;
-  lastUpdate: string;
-  cases: number;
-  deaths: number;
-  recovered: number;
+export interface CovidStatus {
+  TotalConfirmed: number;
+  TotalDeaths: number;
+  TotalRecovered: number;
+}
+
+export interface CountryCovidStatus extends CovidStatus {
+  CountryCode: string;
+}
+
+export interface CovidSummary {
+  Global: CovidStatus;
+  Countries: CountryCovidStatus[];
 }

@@ -3,26 +3,25 @@ import React, { useEffect, useState } from "react";
 import { CalendarSidebar } from "~/components/CalendarSidebar";
 import { CovidMap } from "~/components/CovidMap";
 
-import { CountryStatus } from "~/models";
-import { fetchCovidStatuses } from "~/api";
+import { CountryCovidStatus } from "~/models";
+import { fetchCovidSummary } from "~/api";
 
 export const App: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<CountryStatus[] | undefined>([
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<CountryCovidStatus[] | undefined>([
     {
-      country: "RU",
-      deaths: 1000,
-      cases: 1000,
-      recovered: 1000,
-      lastUpdate: new Date().toLocaleString(),
+      CountryCode: "RU",
+      TotalConfirmed: 1000,
+      TotalDeaths: 1000,
+      TotalRecovered: 1000,
     },
   ]);
 
   useEffect(() => {
-    // fetchCovidStatuses().then(response => {
-    //   setData(response);
-    //   setLoading(false);
-    // });
+    fetchCovidSummary().then(response => {
+      setData(response?.Countries);
+      setLoading(false);
+    });
   }, []);
 
   return (

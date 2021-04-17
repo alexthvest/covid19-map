@@ -1,1 +1,1 @@
-export * from "./fetchCovidStatuses";
+export * from "./fetchCovidSummary";
