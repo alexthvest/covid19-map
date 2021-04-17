@@ -11,7 +11,7 @@ type WorldMapContainerProps = MapContainerProps & {
 
 export const WorldMapContainer: React.FC<WorldMapContainerProps> = ({ handleCountryRender, children, ...props }) => {
   return (
-    <MapContainer className="w-full h-screen" center={[50, 0]} zoom={3} {...props}>
+    <MapContainer className="w-full h-screen" center={[50, 0]} zoom={3} minZoom={2} maxZoom={4} {...props}>
       <GeoJSON
         data={worldMapData}
         onEachFeature={handleCountryRender}
