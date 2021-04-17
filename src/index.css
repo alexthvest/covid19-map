@@ -1,10 +1,14 @@
 * {
     padding: 0;
     margin: 0;
+    outline: none;
 }
 
-.my-label {
-    position: absolute;
-    width:1000px;
-    font-size:20px;
+.DayPicker-Day {
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.DayPicker-Day:hover {
+    background-color: #CCCCCC;
 }

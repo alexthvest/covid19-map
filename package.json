@@ -11,6 +11,7 @@
     "geojson": "^0.5.0",
     "leaflet": "^1.7.1",
     "react": "^17.0.0",
+    "react-day-picker": "^7.4.10",
     "react-dom": "^17.0.0",
     "react-leaflet": "^3.1.0"
   },

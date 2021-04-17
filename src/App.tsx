@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Layer } from "leaflet";
 
 import { WorldMapContainer } from "~/components/WorldMapContainer";
+import { CalendarSidebar } from "~/components/CalendarSidebar";
+
 import { CountryFeature, CountryStatus } from "~/models";
 import { fetchCovidStatuses, getCovidStatusColor } from "~/utils";
 
@@ -34,5 +36,14 @@ export const App: React.FC = () => {
     }
   };
 
-  return <>{!loading && <WorldMapContainer handleCountryRender={handleCountryRender} />}</>;
+  return (
+    <>
+      {!loading && (
+        <div className="flex">
+          <WorldMapContainer handleCountryRender={handleCountryRender} />
+          <CalendarSidebar />
+        </div>
+      )}
+    </>
+  );
 };
