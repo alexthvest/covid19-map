@@ -1,46 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Layer } from "leaflet";
 
-import { WorldMapContainer } from "~/components/WorldMapContainer";
 import { CalendarSidebar } from "~/components/CalendarSidebar";
+import { CovidMap } from "~/components/CovidMap";
 
-import { CountryFeature, CountryStatus } from "~/models";
-import { fetchCovidStatuses, getCovidStatusColor } from "~/utils";
+import { CountryStatus } from "~/models";
+import { fetchCovidStatuses } from "~/api";
 
 export const App: React.FC = () => {
-  const [statuses, setStatuses] = useState<CountryStatus[]>();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<CountryStatus[] | undefined>([
+    {
+      country: "RU",
+      deaths: 1000,
+      cases: 1000,
+      recovered: 1000,
+      lastUpdate: new Date().toLocaleString(),
+    },
+  ]);
 
   useEffect(() => {
-    fetchCovidStatuses().then(response => {
-      setStatuses(response);
-      setLoading(false);
-    });
+    // fetchCovidStatuses().then(response => {
+    //   setData(response);
+    //   setLoading(false);
+    // });
   }, []);
-
-  const handleCountryRender = (feature: CountryFeature, layer: Layer) => {
-    const status = statuses?.find(status => status.country === feature.properties.iso_a2);
-
-    if (status) {
-      const tooltip = [
-        `<h2 class="text-lg font-bold">${feature.properties.name}</h2>`,
-        `<span class="font-semibold">Cases:</span> ${status.cases}`,
-        `<span class="font-semibold">Deaths:</span> ${status.deaths}`,
-        `<span class="font-semibold">Recovered:</span> ${status.recovered}`,
-      ].join("<br>");
-
-      layer.bindTooltip(tooltip, { direction: "top", sticky: true });
-
-      layer.options.fillColor = getCovidStatusColor(Date.now() / 10000000);
-      layer.options.fillOpacity = 0.4;
-    }
-  };
 
   return (
     <>
       {!loading && (
         <div className="flex">
-          <WorldMapContainer handleCountryRender={handleCountryRender} />
+          <CovidMap data={data ?? []} />
           <CalendarSidebar />
         </div>
       )}

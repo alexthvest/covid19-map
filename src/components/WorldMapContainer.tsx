@@ -5,7 +5,7 @@ import { MapContainer, MapContainerProps, GeoJSON } from "react-leaflet";
 import { CountryFeature } from "~/models";
 import worldMapData from "~/map-data/world-50m.json";
 
-type WorldMapContainerProps = MapContainerProps & {
+export type WorldMapContainerProps = MapContainerProps & {
   handleCountryRender: (feature: CountryFeature, layer: Layer) => void;
 };
 
