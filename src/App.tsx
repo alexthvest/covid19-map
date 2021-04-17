@@ -3,7 +3,7 @@ import { Layer } from "leaflet";
 
 import { WorldMapContainer } from "~/components/WorldMapContainer";
 import { CountryFeature, CountryStatus } from "~/models";
-import { getCovidStatusColor } from "~/utils/getStatusColor";
+import { fetchCovidStatuses, getCovidStatusColor } from "~/utils";
 
 export const App: React.FC = () => {
   const [statuses, setStatuses] = useState<CountryStatus[]>();
@@ -16,22 +16,21 @@ export const App: React.FC = () => {
     });
   }, []);
 
-  const fetchCovidStatuses = async (): Promise<CountryStatus[]> => {
-    const response = await fetch("/api/status/");
-
-    if (!response.ok) {
-      return [];
-    }
-
-    return response.json();
-  };
-
-  const handleCountryRender = (country: CountryFeature, layer: Layer) => {
-    const status = statuses.find(status => status.country === country.properties.iso_a2);
+  const handleCountryRender = (feature: CountryFeature, layer: Layer) => {
+    const status = statuses?.find(status => status.country === feature.properties.iso_a2);
 
     if (status) {
-      layer.options.fillColor = getCovidStatusColor(status.cases);
-      layer.options.fillOpacity = 0.9;
+      const tooltip = [
+        `<h2 class="text-lg font-bold">${feature.properties.name}</h2>`,
+        `<span class="font-semibold">Cases:</span> ${status.cases}`,
+        `<span class="font-semibold">Deaths:</span> ${status.deaths}`,
+        `<span class="font-semibold">Recovered:</span> ${status.recovered}`,
+      ].join("<br>");
+
+      layer.bindTooltip(tooltip, { direction: "top", sticky: true });
+
+      layer.options.fillColor = getCovidStatusColor(Date.now() / 10000000);
+      layer.options.fillOpacity = 0.4;
     }
   };
 
