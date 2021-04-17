@@ -1,33 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Layer } from "leaflet";
 
 import { WorldMapContainer } from "~/components/WorldMapContainer";
-import { CountryFeature } from "~/models";
-
-import axios from "axios";
-
-export interface CountryStatus {
-  country: string;
-  lastUpdate: string;
-  cases: number;
-  deaths: number;
-  recovered: number;
-}
+import { CountryFeature, CountryStatus } from "~/models";
+import { getCovidStatusColor } from "~/utils/getStatusColor";
 
 export const App: React.FC = () => {
+  const [statuses, setStatuses] = useState<CountryStatus[]>();
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    axios.get("https://covid19-api.org/api/status/", {}).then(console.log);
+    fetchCovidStatuses().then(response => {
+      setStatuses(response);
+      setLoading(false);
+    });
   }, []);
 
-  const handleCountryRender = (country: CountryFeature, layer: Layer) => {
-    if (country.properties.iso_a2 === "RU") {
-      layer.options.fillColor = "#0000ff";
+  const fetchCovidStatuses = async (): Promise<CountryStatus[]> => {
+    const response = await fetch("/api/status/");
+
+    if (!response.ok) {
+      return [];
     }
 
-    if (country.properties.iso_a2 === "US") {
-      layer.options.fillColor = "#00ff00";
+    return response.json();
+  };
+
+  const handleCountryRender = (country: CountryFeature, layer: Layer) => {
+    const status = statuses.find(status => status.country === country.properties.iso_a2);
+
+    if (status) {
+      layer.options.fillColor = getCovidStatusColor(status.cases);
+      layer.options.fillOpacity = 0.9;
     }
   };
 
-  return <WorldMapContainer handleCountryRender={handleCountryRender} />;
+  return <>{!loading && <WorldMapContainer handleCountryRender={handleCountryRender} />}</>;
 };

@@ -8,3 +8,11 @@ export interface Country {
 }
 
 export type CountryFeature = Feature<Geometry, Country>;
+
+export interface CountryStatus {
+  country: string;
+  lastUpdate: string;
+  cases: number;
+  deaths: number;
+  recovered: number;
+}
