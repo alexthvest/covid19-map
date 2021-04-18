@@ -7,7 +7,9 @@ export interface Country {
   iso_n3: string;
 }
 
-export type CountryFeature = Feature<Geometry, Country>;
+export type WorldMapFeature<T> = Feature<Geometry, T> & {
+  rsmKey: string;
+};
 
 export interface CovidStatus {
   TotalConfirmed: number;

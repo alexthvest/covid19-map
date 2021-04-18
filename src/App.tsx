@@ -8,14 +8,7 @@ import { fetchCovidSummary } from "~/api";
 
 export const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<CountryCovidStatus[] | undefined>([
-    {
-      CountryCode: "RU",
-      TotalConfirmed: 1000,
-      TotalDeaths: 1000,
-      TotalRecovered: 1000,
-    },
-  ]);
+  const [data, setData] = useState<CountryCovidStatus[] | undefined>([]);
 
   useEffect(() => {
     fetchCovidSummary().then(response => {
@@ -27,7 +20,7 @@ export const App: React.FC = () => {
   return (
     <>
       {!loading && (
-        <div className="flex">
+        <div className="flex h-screen">
           <CovidMap data={data ?? []} />
           <CalendarSidebar />
         </div>

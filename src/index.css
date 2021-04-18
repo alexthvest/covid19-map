@@ -13,15 +13,3 @@
 .DayPicker-Day:hover {
     @apply bg-gray-200;
 }
-
-.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
-    @apply border-none;
-}
-
-.leaflet-touch .leaflet-bar a:first-child {
-    @apply rounded-t-md;
-}
-
-.leaflet-touch .leaflet-bar a:last-child {
-    @apply rounded-b-md;
-}
