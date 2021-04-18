@@ -11,17 +11,24 @@ export type WorldMapFeature<T> = Feature<Geometry, T> & {
   rsmKey: string;
 };
 
-export interface CovidStatus {
+export interface TotalCovidStatus {
   TotalConfirmed: number;
   TotalDeaths: number;
   TotalRecovered: number;
 }
 
-export interface CountryCovidStatus extends CovidStatus {
-  CountryCode: string;
+export interface CovidStatus {
+  Confirmed: number;
+  Deaths: number;
+  Recovered: number;
 }
 
+export type CountryCovidStatus<T> = T & {
+  Country: string;
+  CountryCode: string;
+};
+
 export interface CovidSummary {
-  Global: CovidStatus;
-  Countries: CountryCovidStatus[];
+  Global: TotalCovidStatus;
+  Countries: CountryCovidStatus<TotalCovidStatus>[];
 }
