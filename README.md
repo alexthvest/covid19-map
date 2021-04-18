@@ -2,7 +2,24 @@
 
 Будь в курсе настоящего и прошлого.
 
-Данный проект использует https://covid19-api.org для получения данных о ситуации с вирусом.
+Данный проект использует https://covid19api.com/ для получения данных о ситуации с вирусом.
+
+### Установка и запуск
+
+```shell
+# Загрузить репозиторий используя `git clone`
+git clone https://github.com/alexthvest/covid19-map
+
+# Перейти в папку с проектом и установить зависимости
+cd path/to/covid19-map
+yarn // npm install
+
+# Запустить в режиме разработки
+yarn dev // npm run dev
+
+# Собрать приложение для развертывания
+yarn build // npm run build
+```
 
 ### Возможности
 
@@ -13,6 +30,6 @@
 
 - React
 - Typescript
-- Vitejs (сборщик и dev-сервер)
-- React Leaflet (карта)
+- ViteJS (сборщик и dev-сервер)
+- React Simple Maps (карта)
 - TailwindCSS (CSS-стили)
